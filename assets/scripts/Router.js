@@ -65,11 +65,11 @@
      *  4. Finally, call the stored function for the given page
      */
     if (this['home']==null) {
-      console.error('home function DNE');
+      console.log('home function DNE');
       return;      
     }
     if (this[page]==null) {
-      console.error('page function DNE');
+      console.log('page function DNE');
       return;
     }
 

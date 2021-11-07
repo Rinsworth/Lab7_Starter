@@ -51,11 +51,21 @@ async function init() {
  * Detects if there's a service worker, then loads it and begins the process
  * of installing it and getting it running
  */
-function initializeServiceWorker() {
+ function initializeServiceWorker() {
   /**
-   *  TODO - Part 2 Step 1
    *  Initialize the service worker set up in sw.js
    */
+   if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js').then(function(registration) {
+        // registration success
+        console.log('serviceworker registration successful in: ', registration.scope);
+      }, function(err) {
+        // registration failed
+        console.log('serviceworker registration failed: ', err);
+      });
+    });
+  }
 }
 
 /**
@@ -90,34 +100,23 @@ async function fetchRecipes() {
  */
 function createRecipeCards() {
   for (let i = 0; i < recipes.length; i++) {
-    // Makes a new recipe card
     const recipeCard = document.createElement('recipe-card');
-    // Inputs the data for the card. This is just the first recipe in the recipes array,
-    // being used as the key for the recipeData object
     recipeCard.data = recipeData[recipes[i]];
 
-    // This gets the page name of each of the arrays - which is basically
-    // just the filename minus the .json. Since this is the first element
-    // in our recipes array, the ghostCookies URL, we will receive the .json
-    // for that ghostCookies URL since it's a key in the recipeData object, and
-    // then we'll grab the 'page-name' from it - in this case it will be 'ghostCookies'
+    if (i >= 3) {
+      recipeCard.classList.add('hidden');
+    }
+
     const page = recipeData[recipes[i]]['page-name'];
-    
     router.addPage(page, function() {
       document.querySelector('.section--recipe-cards').classList.remove('shown');
       document.querySelector('.section--recipe-expand').classList.add('shown');
       document.querySelector('recipe-expand').data = recipeData[recipes[i]];
     });
     bindRecipeCard(recipeCard, page);
-
-    if (i >= 3) {
-      recipeCard.classList.add('hidden');
-    }
-    
     document.querySelector('.recipe-cards--wrapper').appendChild(recipeCard);
   }
   /**
-   * TODO - Part 1 - Step 3
    * Above I made an example card and added a route for the recipe at index 0 in
    * the recipes array. First, please read through the code in this function to
    * understand what it is doing. Then, turn this into a for loop to iterate over 
@@ -207,7 +206,7 @@ function bindPopstate() {
    * creating an infinite loop
    */
   window.addEventListener('popstate', event => {
-    if (event.state != undefined && event.state.page != undefined) {
+    if (event.state) {
       router.navigate(event.state.page, true);
     } else {
       router.navigate('home', true);
