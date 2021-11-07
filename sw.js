@@ -3,10 +3,12 @@
 
 const CACHE_NAME = 'lab-7-starter';
 
-var urls = ['assets/scripts/main.js', 'assets/scripts/Router.js', 'assets/components/RecipeCard.js', 
-'assets/components/RecipeExpand.js', 'assets/images/icons/5-star.svg', 'assets/images/icons/4-star.svg', 
-'assets/images/icons/3-star.svg', 'assets/images/icons/2-star.svg', 'assets/images/icons/1-star.svg'] 
-
+var urls = [
+  './',
+  './assets/styles/main.css',
+  './assets/scripts/main.js',
+  './assets/scripts/Router.js'
+];
 // Once the service worker has been installed, feed it some initial URLs to cache
 self.addEventListener('install', function (event) {
   /**
