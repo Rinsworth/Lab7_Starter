@@ -64,10 +64,10 @@
      *     and URL + hash to history
      *  4. Finally, call the stored function for the given page
      */
-    if (this['home']==null) {
-      console.log('home function DNE');
-      return;      
-    }
+    // if (this['home']==null) {
+    //   console.log('home function DNE');
+    //   return;      
+    // }
     if (this[page]==null) {
       console.log('page function DNE');
       return;
@@ -76,7 +76,7 @@
     let hash = page == 'home' ? '' : '#' + page;
 
     if (!statePopped && window.location.hash != hash) {
-      history.pushState({page: page}, '', window.location.href+hash);
+      history.pushState({'page' : page}, '', window.location.pathname + hash);
     }
 
     this[page]();
